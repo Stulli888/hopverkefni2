@@ -1,0 +1,1 @@
+{"version":3,"file":"bundle.js","sources":["../src/index.js"],"sourcesContent":["document.addEventListener('DOMContentLoaded', async () => {\r\n  \r\n});"],"names":["document","addEventListener"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAAA,QAAQ,CAACC,gBAAT,CAA0B,kBAA1B,uEAA8C;EAAA;EAAA;EAAA;EAAA;EAAA;EAAA;EAAA;EAAA;EAAA;EAAA,CAA9C;;;;;;"}
