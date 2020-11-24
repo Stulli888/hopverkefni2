@@ -1,0 +1,47 @@
+{
+  "name": "hopverkefni2",
+  "version": "1.0.0",
+  "description": "Verkefnið felst í því að smíða vef lítinn myndbandavef sem nýtir gögn úr JSON skrá.",
+  "main": "index.js",
+  "scripts": {
+    "browser-sync": "browser-sync start --server --files index.html ./dist/styles.css ./dist/bundle.js",
+    "stylelint": "stylelint ./src/styles/**/*.scss --syntax scss",
+    "browser-sync": "browser-sync start --server --files index.html ./dist/styles.css ./dist/bundle.js",
+    "sass": "node-sass --source-map-embed ./src/styles/styles.scss ./dist/styles.css",
+    "sass-watch": "node-sass --source-map-embed --watch --recursive src/styles/styles.scss ./dist/styles.css",
+    "babel": "babel src --out-dir dist",
+    "babel-watch": "babel src --out-dir dist --watch",
+    "rollup": "rollup -c",
+    "rollup-watch": "rollup -c -w",
+    "eslint": "eslint *.js **/*.js",
+    "test": "npm run eslint stylelint",
+    "dev": "npm run --concurrently sass sass-watch rollup-watch browser-sync"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stulli888/hopverkefni2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stulli888/hopverkefni2/issues"
+  },
+  "homepage": "https://github.com/Stulli888/hopverkefni2#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.8",
+    "@babel/preset-env": "^7.12.7",
+    "browser-sync": "^2.26.13",
+    "concurrently": "^5.3.0",
+    "eslint": "^7.14.0",
+    "node-sass": "^5.0.0",
+    "rollup": "^2.33.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "stylelint": "^13.8.0",
+    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-standard": "^20.0.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1"
+  }
+}
