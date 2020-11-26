@@ -49,22 +49,23 @@ const program = (() => {
 
   function init(_videos) {
     videoList = _videos;
+    const categoryVideo = videoList.getElementsByClassName('.categoryVideo');
 
-    for(const category of videoList.querySelector('.category')) {
-      const categoryVideo = category.querySelector('.categoryVideo');
-      categoryVideo.addEventListener('click', play);
+    // Setja EventListener á öll video
+    for (const i of categoryVideo) {
+      categoryVideo[i].addEventListener('click', play);
     }
 
-  fetch(`.videos.json`)
-    .then((list) => {
-      if (!list.ok) {
-        throw new Error('Non 200 status');
-      }
-      return list.json();
-    })
-    .then((data) => {
-      showCategories(data);
-    })
+    fetch(`https://notendur.hi.is/~brs26/hopverkefni2/videos.json`)
+      .then((result) => {
+        if (!result.ok) {
+          throw new Error('Non 200 status');
+        }
+        return result.json();
+      })
+      .then((data) => {
+        showCategories(data);
+      })
   }
 
   return {
