@@ -1,4 +1,4 @@
-@import './config';
+@import 'config';
 
 .grid {
   margin: 0 auto;
@@ -18,12 +18,25 @@
   padding-right: ($gutter / 2);
   width: 100%;
 }
-
-@for $i from 1 through $columns {
-  .col-#{$i} {
-   width: ($i/$columns * 100 * 1%);
+@media (max-width: $grid-bp) {
+  @for $i from 1 through $columns {
+    .col-#{$i} {
+     width: ($i/$columns * 100 * 1%);
+    }
+    .offset-col-#{$i} {
+      margin-left: ($i/$columns * 100 * 1%);
+    }
   }
-  .offset-col-#{$i} {
-    margin-left: ($i/$columns * 100 * 1%);
+}
+
+@media (min-width: $grid-bp) {
+  @for $i from 1 through $columns {
+    .col-md-#{$i} {
+      width: ($i/$columns * 100 * 1%);
+    }
+
+    .offset-col-md-#{$i} {
+      margin-left: ($i/$columns * 100 * 1%);
+    }
   }
 }
