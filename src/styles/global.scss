@@ -16,3 +16,10 @@ html {background-color: $color-background}
 	background-color: #000;
 	height: 2px;
 }
+
+.videoPlayer {
+	display: flex;
+	img {
+		object-fit: cover;
+	}
+}
