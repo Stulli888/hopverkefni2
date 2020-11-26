@@ -14,12 +14,16 @@ const program = (() => {
 
     const category = document.getElementsByClassName('.category');
 
+    // Ítrar samtímis yfir li element með 'category' klasa
+    // og "categories" í videos.json til að sækja gögn
     for (const i in data.categories) {
 
       const thisCategory = data.categories[i];
       category[i].querySelector('.categoryNameRow').textContent = thisCategory.title;
       const videoBox = category[i].getElementsByClassName('.categoryVideoBox');
 
+      // Ítrar yfir "videos" fylki innan "categories" í json
+      // sækir þaðan gögn fyrir video hluti
       for (const j in thisCategory.videos) {
 
         const vid = videoBox[j].querySelector('.categoryVideo');
@@ -29,10 +33,11 @@ const program = (() => {
         const imgId = thisCategory.videos[j];
         const videoData = data.videos[imgId];
 
-        vid.setAttribute('src', `${videoData.poster}`)
+        vid.backgroundImage = `${videoData.poster}`;
         vidTitle.textContent = videoData.title;
 
-        // TODO: klára formatDate fall og setja videoData.created í það
+        // Sendir gildi "created" þ.e. aldur video í formatDate fall
+        // til að fá dagsetningu í rétt form
         videoTime.textContent = formatDate(videoData.created);
 
       }
