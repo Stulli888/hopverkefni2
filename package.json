@@ -6,7 +6,6 @@
   "scripts": {
     "browser-sync": "browser-sync start --server --files index.html ./dist/styles.css ./dist/bundle.js",
     "stylelint": "stylelint ./src/styles/**/*.scss --syntax scss",
-    "browser-sync": "browser-sync start --server --files index.html ./dist/styles.css ./dist/bundle.js",
     "sass": "node-sass --source-map-embed ./src/styles/styles.scss ./dist/styles.css",
     "sass-watch": "node-sass --source-map-embed --watch --recursive src/styles/styles.scss ./dist/styles.css",
     "babel": "babel src --out-dir dist",
