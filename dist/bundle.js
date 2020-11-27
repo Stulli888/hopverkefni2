@@ -115,21 +115,30 @@
 
 
     function showCategories(data) {
-      var category = document.getElementsByClassName('.category');
+      var category = videoList.getElementsByClassName('.category'); // Ítrar samtímis yfir li element með 'category' klasa
+      // og "categories" í videos.json til að sækja gögn
 
       for (var i in data.categories) {
         var thisCategory = data.categories[i];
         category[i].querySelector('.categoryNameRow').textContent = thisCategory.title;
-        var videoBox = category[i].getElementsByClassName('.categoryVideoBox');
+        var videoBox = category[i].getElementsByClassName('.categoryVideoBox'); // Ítrar yfir "videos" fylki innan "categories" í json
+        // sækir þaðan gögn fyrir video hluti
 
         for (var j in thisCategory.videos) {
           var vid = videoBox[j].querySelector('.categoryVideo');
           var vidTitle = videoBox[j].querySelector('.categoryVideoTitle');
-          var videoTime = videoBox[j].querySelector('.categoryVideoDate');
+          var videoTime = videoBox[j].querySelector('.categoryVideoDate'); // Sækir id númer j úr videos fylkinu
+
           var imgId = thisCategory.videos[j];
-          var videoData = data.videos[imgId];
-          vid.setAttribute('src', "".concat(videoData.poster));
-          vidTitle.textContent = videoData.title; // TODO: klára formatDate fall og setja videoData.created í það
+          var videoData = data.videos[imgId]; // Sækir viðeigandi background og breytir <a> elementi
+          // undir video elementinu til að vísa á rétt id. (þarf þetta??)
+
+          vid.backgroundImage = "".concat(videoData.poster);
+          var link = vid.getElementsByTagName('a');
+          var s = link[0].getAttribute('href');
+          link.setAttribute('href', "".concat(s, "?id=").concat(imgId));
+          vidTitle.textContent = videoData.title; // Sendir gildi "created" þ.e. aldur video í formatDate fall
+          // til að fá dagsetningu í rétt form
 
           videoTime.textContent = date_js.formatDate(videoData.created);
         }
@@ -137,36 +146,38 @@
     } // event handler fyrir það að smella á video og fara yfir í video hluta
 
 
-    function play(e) {}
+    function play(e) {
+      e.getElementsByTagName('a').click(); //TODO þarf að setja upp
+    }
 
     function init(_videos) {
-      var videoList = _videos;
+      var videoList = _videos; //videoList = _videos;
 
-      var _iterator = _createForOfIteratorHelper(videoList.querySelector('.category')),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var category = _step.value;
-          var categoryVideo = category.querySelector('.categoryVideo');
-          categoryVideo.addEventListener('click', play);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      fetch(".videos.json").then(function (list) {
-        if (!list.ok) {
+      var categoryVideo = videoList.getElementsByClassName('.categoryVideo');
+      fetch("./videos.json").then(function (result) {
+        if (!result.ok) {
           throw new Error('Non 200 status');
         }
 
-        console.log("hæ");
-        return list.json();
+        return result.json();
       }).then(function (data) {
         showCategories(data);
       });
+    } // Setja EventListener á öll video
+
+
+    var _iterator = _createForOfIteratorHelper(categoryVideo),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var i = _step.value;
+        categoryVideo[i].addEventListener('click', play);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
     }
 
     return {
@@ -179,10 +190,9 @@
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("hæ");
             program.init(document.querySelector('.videos'));
 
-          case 2:
+          case 1:
           case "end":
             return _context.stop();
         }
