@@ -1,7 +1,7 @@
 import {formatDate} from 'date.js';
 
 const program = (() => {
-  const videoList;
+  //const videoList;
 
   // fall sem birtir skilaboð meðan efni er sótt
   function showLoading() {
@@ -61,7 +61,8 @@ const program = (() => {
 
 
   function init(_videos) {
-    videoList = _videos;
+    const videoList = _videos;
+    //videoList = _videos;
     const categoryVideo = videoList.getElementsByClassName('.categoryVideo');
 
     fetch("./videos.json")
