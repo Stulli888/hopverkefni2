@@ -1,15 +1,14 @@
-import videoList from 'videoList';
-import video from 'video';
+import {makeList} from 'videoList';
+import Video from 'video';
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.querySelector('body');
-  const video = page.classList.contains('video');
+  const video = page.classList.contains('videoPage');
 
   if (video) {
-    const video = new video();
+    const video = new Video();
     video.load();
   } else {
-    const videoList = new videoList();
-    videoList.load();
+    makeList(page);
   }
 });

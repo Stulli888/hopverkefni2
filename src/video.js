@@ -1,12 +1,12 @@
 import {el, empty} from 'helperFunctions';
 
-export default class video {
+export default class Video {
   constructor() {
     this.content = document.querySelector('video');
     this.url = './videos.json';
   }
 
-  getData(id) {
+  getData() {
     showLoading('Sæki gögn');
 
     return fetch(this.url)
@@ -15,8 +15,12 @@ export default class video {
           throw new Error('Mistókst að sækja gögn');
         }
         const itsJSON = result.json();
-        return itsJSON.videos[id];
+        return itsJSON.videos;
       });
+  }
+
+  showVideo(data) {
+    empty(this.content);
   }
 
 
@@ -25,7 +29,8 @@ export default class video {
     const id = location.get('id');
 
     this.getData(id)
-      .then(data => this.showVideo(data))
+      .then(data => this.showVideo(data, id))
+      .then(data => this.showRelated(data,id))
   }
 
 }

@@ -1,30 +1,31 @@
 import {el, empty, formatDate} from 'helperFunctions';
+import {getData} from 'getData';
 
-export default class videoList {
+export default function makeList(container) {
+  videoList.init(container);
+}
 
-  constructor() {
-    this.content = document.querySelector('.list');
-    this.url = './videos.json';
-  }
+const videoList = (() => {
+  const content;
+  const response;
+  const url = './videos.json';
 
-  showLoading(text) {
+  function showLoading(text) {
     const loading = el('p', text);
-    this.setContent(loading);
+    setContent(loading);
   }
-
 
   // Fall sem býr til nodes
-  setContent(...content) {
+  function setContent(...content) {
     content.forEach((item) => {
       const contentToShow = typeof item === 'string'
         ? document.createTextNode(item) : item;
 
-      this.content.appendChild(contentToShow);
+      content.appendChild(contentToShow);
     });
   }
 
-  // fall sem sækir gögn úr JSON skjali og setur í html element
-  showItem(data) {
+  function showItem(data) {
 
     if (typeof data === 'string') {
       const categoryTitle = el('div');
@@ -61,22 +62,18 @@ export default class videoList {
     }
   }
 
-  // Passa að showItem fallið virki rétt miðað við þetta
-  showList(data) {
-    empty(this.content);
+  function showList(data) {
+    empty(content);
 
-    // Ítrar gegnum hverja categoríu og býr til row fyrir titilinn
     (data.categories).forEach((cat) => {
-      const titleRow = el('div', this.showItem(cat.title));
+      const titleRow = el('div', showItem(cat.title));
       titleRow.classList.add('row');
-      this.setContent(titleRow);
+      setContent(titleRow);
 
-      // Ítrar gegnum videos fylki undir category, sendir rétt stak úr
-      // efra videos fylkinu í videos.json í showItem fallið
       const vidBoxes = (cat.videos).map((vidBox) => {
         const id = parseInt(vidBox);
         const vidInfo = data.videos[id];
-        col = el('div', this.showItem(vidInfo));
+        col = el('div', showItem(vidInfo))
         const cls = ['col-md-4', 'col-12'];
         col.classList.add(...cls);
         return col;
@@ -84,25 +81,14 @@ export default class videoList {
 
       const vidRow = el('div', ...vidBoxes);
       vidRow.classList.add('row');
-      this.setContent(vidRow);
+      setContent(vidRow);
     })
   }
 
-  getData() {
-    showLoading('Sæki gögn');
-
-    return fetch(this.url)
-      .then((result) => {
-        if(!result.ok) {
-          throw new Error('Mistókst að sækja gögn');
-        }
-        return result.json();
-      });
+  function init(body) {
+    content = body.querySelector('list');
+    response = getData(url);
+    showList(response);
   }
 
-  load() {
-    this.getData()
-      .then(data => this.showList(data))
-  }
-
-}
+})();
