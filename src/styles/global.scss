@@ -17,9 +17,14 @@ html {background-color: $color-background}
 	height: 2px;
 }
 
-.videoPlayer {
+#videoPlayer {
 	display: flex;
+	flex-wrap: wrap;
 	img {
 		object-fit: cover;
 	}
+}
+
+video {
+	min-width: 100%;
 }
