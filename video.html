@@ -11,10 +11,20 @@
   	<main>
       <div class="grid">
         <div class="row">
-          <div class="col-12">
-            <div class="videoPlayer">
-              <img src="videos/16-9.png">
-            </div>
+          <div class="col col-12">
+            <figure id="videoPlayer">
+              <video id="video" controls preload="metadata" poster="videos/bunny.png">
+                <source src="videos/bunny.mp4" type="video/mp4">
+              </video>
+              <ul id="video-controls" class="controls">
+                <li><button id="rewind" type="button">rewind</button></li>
+                <li><button id="playpause" type="button">Play/Pause</button></li>
+                <li><button id="mute" type="button">mute</button></li>
+                <li><button id="fullscreen" type="button">full</button></li>
+                <li><button id="forward" type="button">forward</button></li>
+              </ul>
+              <figcaption>Bunnycaption</a></figcaption>
+            </figure>
           </div>
         </div>
       </div>

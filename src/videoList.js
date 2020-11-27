@@ -1,6 +1,6 @@
 import {el, empty, formatDate} from 'helperFunctions';
 
-export default class videoList {
+export default class VideoList {
 
   constructor() {
     this.content = document.querySelector('.list');
