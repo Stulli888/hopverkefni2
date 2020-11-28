@@ -1,0 +1,40 @@
+@import 'config';
+
+button {
+  background-color: $color-transparent;
+
+  img {
+    width: 100%;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 20%;
+
+}
+
+.img-link {
+  display: flex;
+}
+
+.seperator {
+  background-color: #000;
+  height: 2px;
+}
+
+.video-player {
+  display: flex;
+  flex-wrap: wrap;
+  
+  img {
+    object-fit: cover;
+  }
+}
+
+video {
+  min-width: 100%;
+}
