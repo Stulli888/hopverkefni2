@@ -29,7 +29,7 @@ button {
 .video-player {
   display: flex;
   flex-wrap: wrap;
-  
+
   img {
     object-fit: cover;
   }
@@ -37,4 +37,15 @@ button {
 
 video {
   min-width: 100%;
+  max-height: 600px;
+}
+
+.link-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.description-text {
+  margin-left: $gutter;
 }

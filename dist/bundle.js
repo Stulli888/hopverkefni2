@@ -1036,7 +1036,7 @@
 
         data.categories.forEach(function (cat) {
           var title = el('h1', cat.title);
-          title.classList.add('categoryTitle');
+          title.classList.add('category-title');
           var titleRow = el('div', title);
           titleRow.classList.add('row');
 
@@ -1589,37 +1589,37 @@
     _createClass(Video, [{
       key: "getRelatedVideos",
       value: function getRelatedVideos(related, data) {
-        var relatedRow = el('div');
-        relatedRow.classList.add('row');
-        console.log(related);
-        console.log(data);
         related.forEach(function (i) {
-          console.log(i);
-
           if (i) {
+            var _col$classList;
+
             var vidData = data[i - 1];
             var video = el('div');
-            var st = "listItem__video__".concat(vidData.id);
+            var st = "list-item__video__".concat(vidData.id);
             video.classList.add(st); // TODO: Formatta duration á videóum. Búa til fall?
 
             var formatDuration = "".concat(vidData.duration);
             var duration = el('div', formatDuration);
-            duration.classList.add('listItem__videoDuration');
+            duration.classList.add('list-item__videoDuration');
             video.appendChild(duration);
             var videoTitle = el('h2', vidData.title);
-            videoTitle.classList.add('listItem__videoTitle');
+            videoTitle.classList.add('list-item__videoTitle');
             var formatCreated = formatDate(vidData.created);
             var created = el('span', formatCreated);
-            created.classList.add('listItem__videoDate');
+            created.classList.add('list-item__videoDate');
             var textElements = el('div', videoTitle, created);
-            textElements.classList.add('listItem__videoText');
+            textElements.classList.add('list-item__videoText');
             var clickMe = el('a', video, textElements);
-            clickMe.classList.add('listItem');
+            clickMe.classList.add('list-item');
             clickMe.setAttribute('href', "video.html?id=".concat(vidData.id));
-            relatedRow.appendChild(clickMe);
+            var col = el('div', clickMe);
+            var cls = ['col', 'col-md-4', 'col-12', 'img-link'];
+
+            (_col$classList = col.classList).add.apply(_col$classList, cls);
+
+            document.getElementById('related-videos').appendChild(col);
           }
         });
-        document.getElementById('related-videos').appendChild(relatedRow);
       }
     }, {
       key: "getVideoSources",
@@ -1631,7 +1631,6 @@
       key: "setData",
       value: function setData(data) {
         var vidList = data.videos;
-        console.log("id = ".concat(this.id));
         var vidIdInfo = data.videos[this.id - 1];
         var supportsVideo = !!document.createElement('video').canPlayType;
 
@@ -1645,10 +1644,11 @@
           var str = this.getVideoSources(vidIdInfo.video);
           source.setAttribute('src', "".concat(str));
           source.setAttribute('type', 'video/mp4');
-          video.appendChild(source);
+          video.appendChild(source); // Gögn fyrir
+
           var videoControls = document.getElementById('video-controls');
           video.controls = false;
-          videoControls.style.display = 'block';
+          videoControls.style.display = 'flex';
           var rewind = document.getElementById('rewind');
           var playpause = document.getElementById('playpause');
           var mute = document.getElementById('mute');
@@ -1708,13 +1708,20 @@
           document.addEventListener('msfullscreenchange', function () {
             setFullscreenData(!!document.msFullscreenElement);
           });
+          var description = "".concat(vidIdInfo.description);
+          var descriptionContainer = el('p', description);
+          descriptionContainer.classList.add('description-text');
+          var desCol = el('div', descriptionContainer);
+          var cls = ['col', 'col-md-4', 'col-12'];
+          desCol.setAttribute.apply(desCol, cls);
+          document.getElementById('video-description').appendChild(desCol);
           this.getRelatedVideos(vidIdInfo.related, vidList);
           var linkBack = el('a', 'Til baka');
           linkBack.classList.add('linkBack');
           linkBack.setAttribute('href', 'index.html');
-          var linkBackRow = el('div', linkBack);
-          linkBackRow.classList.add('row');
-          document.getElementById('til-baka').appendChild(linkBackRow);
+          var linkBackContainer = el('div', linkBack);
+          linkBackContainer.classList.add("link-container");
+          document.getElementById('til-baka').appendChild(linkBackContainer);
         }
       }
     }, {
