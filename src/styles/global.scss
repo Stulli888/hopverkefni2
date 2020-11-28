@@ -5,9 +5,31 @@
   margin: 0;
   padding: 0;
 }
+ul,
+li {
+	list-style: none;
+}
 
 html {
   background-color: $color-background;
+}
+
+button {
+	background-color: $color-transparent;
+	border: none;
+	img {
+		width: 100%;
+	}
+}
+
+
+.controls {
+	display: flex;
+	justify-content: space-around;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 20%;
+
 }
 
 .img-link {

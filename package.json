@@ -14,7 +14,7 @@
     "rollup-watch": "rollup -c -w",
     "eslint": "eslint *.js **/*.js",
     "test": "concurrently npm:eslint npm:stylelint",
-    "dev": "concurrently npm:sass-watch npm:rollup-watch npm:browser-sync"
+    "dev": "concurrently npm:sass npm:sass-watch npm:rollup-watch npm:browser-sync"
   },
   "repository": {
     "type": "git",
