@@ -79,7 +79,7 @@ export default class VideoList {
       const vidBoxes = (cat.videos).map((vidBox) => {
         const vidInfo = data.videos[vidBox-1];
         const col = el('div', this.showItem(vidInfo));
-        const cls = ['col-md-4', 'col-12'];
+        const cls = ['col', 'col-md-4', 'col-12', 'img-link'];
         col.classList.add(...cls);
         return col;
       })
