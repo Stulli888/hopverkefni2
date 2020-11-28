@@ -1035,7 +1035,9 @@
         empty(this.content); // Ítrar gegnum hverja categoríu og býr til row fyrir titilinn
 
         data.categories.forEach(function (cat) {
-          var titleRow = el('div', cat.title);
+          var title = el('h1', cat.title);
+          title.classList.add('categoryTitle');
+          var titleRow = el('div', title);
           titleRow.classList.add('row');
 
           _this2.setContent(titleRow); // Ítrar gegnum videos fylki undir category, sendir rétt stak úr
@@ -1053,6 +1055,14 @@
 
             return col;
           });
+          var dividingLine = el('div');
+          dividingLine.classList.add('divider__line');
+          var lineRow = el('div', dividingLine);
+          lineRow.classList.add('row');
+          lineRow.classList.add('divider');
+
+          _this2.setContent(lineRow);
+
           var vidRow = el.apply(void 0, ['div'].concat(_toConsumableArray(vidBoxes)));
           vidRow.classList.add('row');
 

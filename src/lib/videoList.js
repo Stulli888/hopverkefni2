@@ -68,7 +68,9 @@ export default class VideoList {
 
     // Ítrar gegnum hverja categoríu og býr til row fyrir titilinn
     (data.categories).forEach((cat) => {
-      const titleRow = el('div', cat.title);
+      const title = el('h1', cat.title);
+      title.classList.add('categoryTitle');
+      const titleRow = el('div', title);
       titleRow.classList.add('row');
       this.setContent(titleRow);
 
@@ -81,6 +83,13 @@ export default class VideoList {
         col.classList.add(...cls);
         return col;
       })
+
+      const dividingLine = el('div');
+      dividingLine.classList.add('divider__line');
+      const lineRow = el('div', dividingLine);
+      lineRow.classList.add('row');
+      lineRow.classList.add('divider');
+      this.setContent(lineRow);
 
       const vidRow = el('div', ...vidBoxes);
       vidRow.classList.add('row');
