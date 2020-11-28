@@ -1,4 +1,4 @@
-import {el, empty, getData} from './lib/helperFunctions';
+import {el, formatDate} from './lib/helperFunctions';
 
 export default class Video {
   constructor() {
@@ -8,32 +8,72 @@ export default class Video {
     this.id = location.get('id');
   }
 
-  // Fall sem býr til nodes
-  setContent(...contentToMake) {
-    contentToMake.forEach((item) => {
-      const contentToShow = typeof item === 'string'
-        ? document.createTextNode(item) : item;
 
-      this.content.appendChild(contentToShow);
-    });
+  getRelatedVideos(related, data) {
+    const relatedRow = el('div');
+    relatedRow.classList.add('row');
+    console.log(related);
+    console.log(data);
+
+    related.forEach((i) => {
+      console.log(i);
+      if(i) {
+        const vidData = data[i-1];
+
+        const video = el('div');
+        let st = `listItem__video__${vidData.id}`;
+        video.classList.add(st);
+
+        // TODO: Formatta duration á videóum. Búa til fall?
+        const formatDuration = `${vidData.duration}`;
+        const duration = el('div', formatDuration);
+        duration.classList.add('listItem__videoDuration');
+        video.appendChild(duration);
+
+        const videoTitle = el('h2', vidData.title);
+        videoTitle.classList.add('listItem__videoTitle');
+
+        const formatCreated = formatDate(vidData.created);
+        const created = el('span', formatCreated);
+        created.classList.add('listItem__videoDate');
+
+        const textElements = el('div', videoTitle, created);
+        textElements.classList.add('listItem__videoText');
+
+        const clickMe = el('a', video, textElements);
+        clickMe.classList.add('listItem');
+        clickMe.setAttribute('href', `video.html?id=${vidData.id}`);
+
+        relatedRow.appendChild(clickMe);
+      }
+    })
+    document.getElementById('related-videos').appendChild(relatedRow);
   }
 
-  getVideoLink(source) {
+  getVideoSources(source) {
     const s = source.slice(2);
     return s;
   }
 
   setData(data) {
+    const vidList = data.videos;
     console.log(`id = ${this.id}`);
     const vidIdInfo = data.videos[this.id-1];
 
     var supportsVideo = !!document.createElement('video').canPlayType;
     if (supportsVideo) {
       var videoContainer = document.getElementById('videoPlayer');
-      var video = document.getElementById('video');
-      var source = document.getElementsByTagName('source');
-      let str = this.getVideoLink(vidIdInfo.video);
-      //source.setAttribute('src', str);
+
+      // Sækir gögn fyrir video elementið
+      const video = document.getElementById('video');
+      let poster = this.getVideoSources(vidIdInfo.poster);
+      video.setAttribute('poster', `${poster}`);
+      const source = el('source');
+      let str = this.getVideoSources(vidIdInfo.video);
+      source.setAttribute('src', `${str}`);
+      source.setAttribute('type', 'video/mp4');
+      video.appendChild(source);
+
       var videoControls = document.getElementById('video-controls');
       video.controls = false;
       videoControls.style.display = 'block';
@@ -43,13 +83,6 @@ export default class Video {
       var mute = document.getElementById('mute');
       var fullscreen = document.getElementById('fullscreen');
       var forward = document.getElementById('forward');
-
-      const linkBack = el('a', 'Til baka');
-      linkBack.classList.add('linkBack');
-      linkBack.setAttribute('href', 'index.html');
-      const linkBackRow = el('div', linkBack);
-      linkBackRow.classList.add('row');
-      document.getElementById('videoPlayer').appendChild(linkBackRow);
 
       rewind.addEventListener('click', function(e) {
         let currentTime = video.currentTime;
@@ -114,6 +147,14 @@ export default class Video {
          setFullscreenData(!!document.msFullscreenElement);
       });
 
+      this.getRelatedVideos(vidIdInfo.related, vidList);
+
+      const linkBack = el('a', 'Til baka');
+      linkBack.classList.add('linkBack');
+      linkBack.setAttribute('href', 'index.html');
+      const linkBackRow = el('div', linkBack);
+      linkBackRow.classList.add('row');
+      document.getElementById('til-baka').appendChild(linkBackRow);
     }
 
   }

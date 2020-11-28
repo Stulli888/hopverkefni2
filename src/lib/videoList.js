@@ -28,34 +28,34 @@ export default class VideoList {
 
     if (typeof data === 'string') {
       const categoryTitle = el('div');
-      categoryTitle.classList.add('listItem__categoryTitle');
+      categoryTitle.classList.add('list-item__categoryTitle');
       return categoryTitle;
     }
 
     else {
       const video = el('div');
-      let st = `listItem__video__${data.id}`;
+      let st = `list-item__video__${data.id}`;
       video.classList.add(st);
 
 
       // TODO: Formatta duration á videóum. Búa til fall?
       const formatDuration = `${data.duration}`;
       const duration = el('div', formatDuration);
-      duration.classList.add('listItem__videoDuration');
+      duration.classList.add('list-item__videoDuration');
       video.appendChild(duration);
 
       const videoTitle = el('h2', data.title);
-      videoTitle.classList.add('listItem__videoTitle');
+      videoTitle.classList.add('list-item__videoTitle');
 
       const formatCreated = formatDate(data.created);
       const created = el('span', formatCreated);
-      created.classList.add('listItem__videoDate');
+      created.classList.add('list-item__videoDate');
 
       const textElements = el('div', videoTitle, created);
-      textElements.classList.add('listItem__videoText');
+      textElements.classList.add('list-item__videoText');
 
       const clickMe = el('a', video, textElements);
-      clickMe.classList.add('listItem');
+      clickMe.classList.add('list-item');
       clickMe.setAttribute('href', `video.html?id=${data.id}`);
 
       return clickMe;

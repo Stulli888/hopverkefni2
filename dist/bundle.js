@@ -1002,26 +1002,26 @@
       value: function showItem(data) {
         if (typeof data === 'string') {
           var categoryTitle = el('div');
-          categoryTitle.classList.add('listItem__categoryTitle');
+          categoryTitle.classList.add('list-item__categoryTitle');
           return categoryTitle;
         } else {
           var video = el('div');
-          var st = "listItem__video__".concat(data.id);
+          var st = "list-item__video__".concat(data.id);
           video.classList.add(st); // TODO: Formatta duration á videóum. Búa til fall?
 
           var formatDuration = "".concat(data.duration);
           var duration = el('div', formatDuration);
-          duration.classList.add('listItem__videoDuration');
+          duration.classList.add('list-item__videoDuration');
           video.appendChild(duration);
           var videoTitle = el('h2', data.title);
-          videoTitle.classList.add('listItem__videoTitle');
+          videoTitle.classList.add('list-item__videoTitle');
           var formatCreated = formatDate(data.created);
           var created = el('span', formatCreated);
-          created.classList.add('listItem__videoDate');
+          created.classList.add('list-item__videoDate');
           var textElements = el('div', videoTitle, created);
-          textElements.classList.add('listItem__videoText');
+          textElements.classList.add('list-item__videoText');
           var clickMe = el('a', video, textElements);
-          clickMe.classList.add('listItem');
+          clickMe.classList.add('list-item');
           clickMe.setAttribute('href', "video.html?id=".concat(data.id));
           return clickMe;
         }
@@ -1584,43 +1584,68 @@
       this.url = './videos.json';
       var location = new URLSearchParams(window.location.search);
       this.id = location.get('id');
-    } // Fall sem býr til nodes
-
+    }
 
     _createClass(Video, [{
-      key: "setContent",
-      value: function setContent() {
-        var _this = this;
+      key: "getRelatedVideos",
+      value: function getRelatedVideos(related, data) {
+        var relatedRow = el('div');
+        relatedRow.classList.add('row');
+        console.log(related);
+        console.log(data);
+        related.forEach(function (i) {
+          console.log(i);
 
-        for (var _len = arguments.length, contentToMake = new Array(_len), _key = 0; _key < _len; _key++) {
-          contentToMake[_key] = arguments[_key];
-        }
+          if (i) {
+            var vidData = data[i - 1];
+            var video = el('div');
+            var st = "listItem__video__".concat(vidData.id);
+            video.classList.add(st); // TODO: Formatta duration á videóum. Búa til fall?
 
-        contentToMake.forEach(function (item) {
-          var contentToShow = typeof item === 'string' ? document.createTextNode(item) : item;
-
-          _this.content.appendChild(contentToShow);
+            var formatDuration = "".concat(vidData.duration);
+            var duration = el('div', formatDuration);
+            duration.classList.add('listItem__videoDuration');
+            video.appendChild(duration);
+            var videoTitle = el('h2', vidData.title);
+            videoTitle.classList.add('listItem__videoTitle');
+            var formatCreated = formatDate(vidData.created);
+            var created = el('span', formatCreated);
+            created.classList.add('listItem__videoDate');
+            var textElements = el('div', videoTitle, created);
+            textElements.classList.add('listItem__videoText');
+            var clickMe = el('a', video, textElements);
+            clickMe.classList.add('listItem');
+            clickMe.setAttribute('href', "video.html?id=".concat(vidData.id));
+            relatedRow.appendChild(clickMe);
+          }
         });
+        document.getElementById('related-videos').appendChild(relatedRow);
       }
     }, {
-      key: "getVideoLink",
-      value: function getVideoLink(source) {
+      key: "getVideoSources",
+      value: function getVideoSources(source) {
         var s = source.slice(2);
         return s;
       }
     }, {
       key: "setData",
       value: function setData(data) {
+        var vidList = data.videos;
         console.log("id = ".concat(this.id));
         var vidIdInfo = data.videos[this.id - 1];
         var supportsVideo = !!document.createElement('video').canPlayType;
 
         if (supportsVideo) {
-          var videoContainer = document.getElementById('videoPlayer');
-          var video = document.getElementById('video');
-          var source = document.getElementsByTagName('source');
-          var str = this.getVideoLink(vidIdInfo.video); //source.setAttribute('src', str);
+          var videoContainer = document.getElementById('videoPlayer'); // Sækir gögn fyrir video elementið
 
+          var video = document.getElementById('video');
+          var poster = this.getVideoSources(vidIdInfo.poster);
+          video.setAttribute('poster', "".concat(poster));
+          var source = el('source');
+          var str = this.getVideoSources(vidIdInfo.video);
+          source.setAttribute('src', "".concat(str));
+          source.setAttribute('type', 'video/mp4');
+          video.appendChild(source);
           var videoControls = document.getElementById('video-controls');
           video.controls = false;
           videoControls.style.display = 'block';
@@ -1629,12 +1654,6 @@
           var mute = document.getElementById('mute');
           var fullscreen = document.getElementById('fullscreen');
           var forward = document.getElementById('forward');
-          var linkBack = el('a', 'Til baka');
-          linkBack.classList.add('linkBack');
-          linkBack.setAttribute('href', 'index.html');
-          var linkBackRow = el('div', linkBack);
-          linkBackRow.classList.add('row');
-          document.getElementById('videoPlayer').appendChild(linkBackRow);
           rewind.addEventListener('click', function (e) {
             var currentTime = video.currentTime;
             video.currentTime = currentTime - 3;
@@ -1689,6 +1708,13 @@
           document.addEventListener('msfullscreenchange', function () {
             setFullscreenData(!!document.msFullscreenElement);
           });
+          this.getRelatedVideos(vidIdInfo.related, vidList);
+          var linkBack = el('a', 'Til baka');
+          linkBack.classList.add('linkBack');
+          linkBack.setAttribute('href', 'index.html');
+          var linkBackRow = el('div', linkBack);
+          linkBackRow.classList.add('row');
+          document.getElementById('til-baka').appendChild(linkBackRow);
         }
       }
     }, {
@@ -1706,10 +1732,10 @@
     }, {
       key: "load",
       value: function load() {
-        var _this2 = this;
+        var _this = this;
 
         this.getData().then(function (data) {
-          return _this2.setData(data);
+          return _this.setData(data);
         });
       }
     }]);
