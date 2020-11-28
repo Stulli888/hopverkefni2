@@ -1,4 +1,4 @@
-import {el, empty} from 'helperFunctions';
+import {el, empty} from './lib/helperFunctions';
 
 export default class Video {
   constructor() {
@@ -19,8 +19,10 @@ export default class Video {
       });
   }
 
-  showVideo(data) {
+  showVideo(data, id) {
     empty(this.content);
+
+
   }
 
 

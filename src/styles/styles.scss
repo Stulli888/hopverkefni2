@@ -10,6 +10,24 @@
   }
 }
 
+.listItem {
+  width: 100%;
+  height: 500px;
+
+  &__video {
+    object-fit: cover;
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    &__1 {
+      width: 100%;
+      height: 100%;
+      background-image: url('../videos/small.png');
+    }
+  }
+}
+
 .headline {
   text-align: center;
 }
