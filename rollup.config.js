@@ -25,8 +25,6 @@ module.exports = {
       ],
     }),
     resolve(),
-    commonjs({
-      esmExternals: true,
-    }),
+    commonjs(),
   ],
 };

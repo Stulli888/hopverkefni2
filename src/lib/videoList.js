@@ -1,41 +1,41 @@
-import {el, empty, formatDate} from 'helperFunctions';
-import {getData} from 'getData';
+import {el, empty, formatDate} from './helperFunctions';
 
-export default function makeList(container) {
-  videoList.init(container);
-}
+export default class VideoList {
 
-const videoList = (() => {
-  //const content;
-  //const response;
-  const url = './videos.json';
-
-  function showLoading(text) {
-    const loading = el('p', text);
-    setContent(loading);
+  constructor() {
+    this.content = document.querySelector('.list');
+    this.url = './videos.json';
   }
 
+//  showLoading(text) {
+//    const loading = el('p', `${text}`);
+//    this.setContent(loading);
+//  }
+
+
   // Fall sem býr til nodes
-  function setContent(...content) {
-    content.forEach((item) => {
+  setContent(...contentToMake) {
+    contentToMake.forEach((item) => {
       const contentToShow = typeof item === 'string'
         ? document.createTextNode(item) : item;
 
-      content.appendChild(contentToShow);
+      this.content.appendChild(contentToShow);
     });
   }
 
-  function showItem(data) {
+  // fall sem sækir gögn úr JSON skjali og setur í html element
+  showItem(data) {
 
     if (typeof data === 'string') {
       const categoryTitle = el('div');
       categoryTitle.classList.add('listItem__categoryTitle');
+      return categoryTitle;
     }
 
     else {
       const video = el('div');
-      video.classList.add('listItem__video');
-      video.BackgroundImage = `${data.poster}`;
+      let st = `listItem__video__${data.id}`;
+      video.classList.add(st);
 
 
       // TODO: Formatta duration á videóum. Búa til fall?
@@ -62,18 +62,21 @@ const videoList = (() => {
     }
   }
 
-  function showList(data) {
-    empty(content);
+  // Passa að showItem fallið virki rétt miðað við þetta
+  showList(data) {
+    empty(this.content);
 
+    // Ítrar gegnum hverja categoríu og býr til row fyrir titilinn
     (data.categories).forEach((cat) => {
-      const titleRow = el('div', showItem(cat.title));
+      const titleRow = el('div', cat.title);
       titleRow.classList.add('row');
-      setContent(titleRow);
+      this.setContent(titleRow);
 
+      // Ítrar gegnum videos fylki undir category, sendir rétt stak úr
+      // efra videos fylkinu í videos.json í showItem fallið
       const vidBoxes = (cat.videos).map((vidBox) => {
-        const id = parseInt(vidBox);
-        const vidInfo = data.videos[id];
-        col = el('div', showItem(vidInfo))
+        const vidInfo = data.videos[vidBox-1];
+        const col = el('div', this.showItem(vidInfo));
         const cls = ['col-md-4', 'col-12'];
         col.classList.add(...cls);
         return col;
@@ -81,14 +84,25 @@ const videoList = (() => {
 
       const vidRow = el('div', ...vidBoxes);
       vidRow.classList.add('row');
-      setContent(vidRow);
+      this.setContent(vidRow);
     })
   }
 
-  function init(body) {
-    const content = body.querySelector('list');
-    const response = getData(url);
-    showList(response);
+  getData() {
+    //showLoading('Sæki gögn');
+
+    return fetch(this.url)
+      .then((result) => {
+        if(!result.ok) {
+          throw new Error('Mistókst að sækja gögn');
+        }
+        return result.json();
+      });
   }
 
-})();
+  load() {
+    this.getData()
+      .then(data => this.showList(data))
+  }
+
+}

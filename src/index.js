@@ -1,4 +1,4 @@
-import makeList from './videoList';
+import VideoList from './lib/videoList';
 import Video from './video';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = new Video();
     video.load();
   } else {
-    makeList(page);
+    const videoList = new VideoList();
+    videoList.load();
   }
 });
