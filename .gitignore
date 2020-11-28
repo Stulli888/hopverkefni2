@@ -8,6 +8,9 @@
 
 # production
 /build
+bundle.js
+bundle.js.map
+
 
 # misc
 .DS_Store
@@ -24,3 +27,4 @@ yarn-error.log*
 
 # sleppum styles.css þar sem það verður búið til út frá styles.scss
 styles.css
+grid-overlay.css

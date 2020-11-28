@@ -6,25 +6,28 @@
   padding: 0;
 }
 
-html {background-color: $color-background}
+html {
+  background-color: $color-background;
+}
 
-.imgLink {
-	display: flex;
+.img-link {
+  display: flex;
 }
 
 .seperator {
-	background-color: #000;
-	height: 2px;
+  background-color: #000;
+  height: 2px;
 }
 
-#videoPlayer {
-	display: flex;
-	flex-wrap: wrap;
-	img {
-		object-fit: cover;
-	}
+.video-player {
+  display: flex;
+  flex-wrap: wrap;
+  
+  img {
+    object-fit: cover;
+  }
 }
 
 video {
-	min-width: 100%;
+  min-width: 100%;
 }
