@@ -1049,7 +1049,7 @@
 
             var vidInfo = data.videos[vidBox - 1];
             var col = el('div', _this2.showItem(vidInfo));
-            var cls = ['col-md-4', 'col-12'];
+            var cls = ['col', 'col-md-4', 'col-12', 'img-link'];
 
             (_col$classList = col.classList).add.apply(_col$classList, cls);
 
