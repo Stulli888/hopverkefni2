@@ -1049,7 +1049,7 @@
 
             var vidInfo = data.videos[vidBox - 1];
             var col = el('div', _this2.showItem(vidInfo));
-            var cls = ['col-md-4', 'col-12'];
+            var cls = ['col', 'col-md-4', 'col-12', 'img-link'];
 
             (_col$classList = col.classList).add.apply(_col$classList, cls);
 
@@ -1582,36 +1582,45 @@
 
       this.content = document.querySelector('video');
       this.url = './videos.json';
-    }
+      var location = new URLSearchParams(window.location.search);
+      this.id = location.get('id');
+    } // Fall sem býr til nodes
+
 
     _createClass(Video, [{
-      key: "getData",
-      value: function getData() {
-        showLoading('Sæki gögn');
-        return fetch(this.url).then(function (result) {
-          if (!result.ok) {
-            throw new Error('Mistókst að sækja gögn');
-          }
+      key: "setContent",
+      value: function setContent() {
+        var _this = this;
 
-          var itsJSON = result.json();
-          return itsJSON.videos;
+        for (var _len = arguments.length, contentToMake = new Array(_len), _key = 0; _key < _len; _key++) {
+          contentToMake[_key] = arguments[_key];
+        }
+
+        contentToMake.forEach(function (item) {
+          var contentToShow = typeof item === 'string' ? document.createTextNode(item) : item;
+
+          _this.content.appendChild(contentToShow);
         });
       }
     }, {
-      key: "showVideo",
-      value: function showVideo(data, id) {
-        empty(this.content);
+      key: "getVideoLink",
+      value: function getVideoLink(source) {
+        var s = source.slice(2);
+        return s;
       }
     }, {
-      key: "load",
-      value: function load() {
-        var _this = this;
-
+      key: "setData",
+      value: function setData(data) {
+        console.log("id = ".concat(this.id));
+        var vidIdInfo = data.videos[this.id - 1];
         var supportsVideo = !!document.createElement('video').canPlayType;
 
         if (supportsVideo) {
           var videoContainer = document.getElementById('videoPlayer');
           var video = document.getElementById('video');
+          var source = document.getElementsByTagName('source');
+          var str = this.getVideoLink(vidIdInfo.video); //source.setAttribute('src', str);
+
           var videoControls = document.getElementById('video-controls');
           video.controls = false;
           videoControls.style.display = 'block';
@@ -1620,6 +1629,12 @@
           var mute = document.getElementById('mute');
           var fullscreen = document.getElementById('fullscreen');
           var forward = document.getElementById('forward');
+          var linkBack = el('a', 'Til baka');
+          linkBack.classList.add('linkBack');
+          linkBack.setAttribute('href', 'index.html');
+          var linkBackRow = el('div', linkBack);
+          linkBackRow.classList.add('row');
+          document.getElementById('videoPlayer').appendChild(linkBackRow);
           rewind.addEventListener('click', function (e) {
             var currentTime = video.currentTime;
             video.currentTime = currentTime - 3;
@@ -1675,13 +1690,26 @@
             setFullscreenData(!!document.msFullscreenElement);
           });
         }
+      }
+    }, {
+      key: "getData",
+      value: function getData() {
+        //showLoading('Sæki gögn');
+        return fetch(this.url).then(function (result) {
+          if (!result.ok) {
+            throw new Error('Mistókst að sækja gögn');
+          }
 
-        var location = new URLSearchParams(window.location.search);
-        var id = location.get('id');
-        this.getData(id).then(function (data) {
-          return _this.showVideo(data, id);
-        }).then(function (data) {
-          return _this.showRelated(data, id);
+          return result.json();
+        });
+      }
+    }, {
+      key: "load",
+      value: function load() {
+        var _this2 = this;
+
+        this.getData().then(function (data) {
+          return _this2.setData(data);
         });
       }
     }]);
@@ -1691,7 +1719,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var page = document.querySelector('body');
-    var video = page.classList.contains('videoPage');
+    var video = page.classList.contains('video');
 
     if (video) {
       var _video = new Video();

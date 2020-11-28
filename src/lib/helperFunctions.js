@@ -39,7 +39,6 @@ export function el(name, ...children) {
 
 // fall sem setur aldur myndbands í rétt form
 export function formatDate(created) {
-
   let s = "string";
   const now = Date.now();
   const difference = now - created;

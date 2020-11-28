@@ -3,7 +3,7 @@ import Video from './video';
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.querySelector('body');
-  const video = page.classList.contains('videoPage');
+  const video = page.classList.contains('video');
 
   if (video) {
     const video = new Video();

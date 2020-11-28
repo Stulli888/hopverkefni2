@@ -30,45 +30,50 @@
   height: 300px;
 }
 
-.listItem {
-  width: 100%;
+.list {
+  margin: 0 auto;
 
-  &__videoText {
-    margin-bottom: $bottom-margin;
-  }
 
-  &__video {
+  .listItem {
     width: 100%;
-    height: 100%;
 
-    &__1 {
-      @include picSettings;
-      background-image: url('../videos/small.png');
+    &__videoText {
+      margin-bottom: $bottom-margin;
     }
 
-    &__2 {
-      @include picSettings();
-      background-image: url('../videos/bunny.png');
-    }
+    &__video {
+      width: 100%;
+      height: 100%;
 
-    &__3 {
-      @include picSettings();
-      background-image: url('../videos/16-9.png');
-    }
+      &__1 {
+        @include picSettings;
+        background-image: url('../videos/small.png');
+      }
 
-    &__4 {
-      @include picSettings();
-      background-image: url('../videos/typing.png');
-    }
+      &__2 {
+        @include picSettings();
+        background-image: url('../videos/bunny.png');
+      }
 
-    &__5 {
-      @include picSettings();
-      background-image: url('../videos/16-9.png');
-    }
+      &__3 {
+        @include picSettings();
+        background-image: url('../videos/16-9.png');
+      }
 
-    &__6 {
-      @include picSettings();
-      background-image: url('../videos/drone.png');
+      &__4 {
+        @include picSettings();
+        background-image: url('../videos/typing.png');
+      }
+
+      &__5 {
+        @include picSettings();
+        background-image: url('../videos/16-9.png');
+      }
+
+      &__6 {
+        @include picSettings();
+        background-image: url('../videos/drone.png');
+      }
     }
   }
 }

@@ -1,37 +1,39 @@
-import {el, empty} from './lib/helperFunctions';
+import {el, empty, getData} from './lib/helperFunctions';
 
 export default class Video {
   constructor() {
     this.content = document.querySelector('video');
     this.url = './videos.json';
+    const location = new URLSearchParams(window.location.search);
+    this.id = location.get('id');
   }
 
-  getData() {
-    showLoading('Sæki gögn');
+  // Fall sem býr til nodes
+  setContent(...contentToMake) {
+    contentToMake.forEach((item) => {
+      const contentToShow = typeof item === 'string'
+        ? document.createTextNode(item) : item;
 
-    return fetch(this.url)
-      .then((result) => {
-        if(!result.ok) {
-          throw new Error('Mistókst að sækja gögn');
-        }
-        const itsJSON = result.json();
-        return itsJSON.videos;
-      });
+      this.content.appendChild(contentToShow);
+    });
   }
 
-  showVideo(data, id) {
-    empty(this.content);
-
-
+  getVideoLink(source) {
+    const s = source.slice(2);
+    return s;
   }
 
+  setData(data) {
+    console.log(`id = ${this.id}`);
+    const vidIdInfo = data.videos[this.id-1];
 
-
-  load() {
     var supportsVideo = !!document.createElement('video').canPlayType;
     if (supportsVideo) {
       var videoContainer = document.getElementById('videoPlayer');
       var video = document.getElementById('video');
+      var source = document.getElementsByTagName('source');
+      let str = this.getVideoLink(vidIdInfo.video);
+      //source.setAttribute('src', str);
       var videoControls = document.getElementById('video-controls');
       video.controls = false;
       videoControls.style.display = 'block';
@@ -41,6 +43,13 @@ export default class Video {
       var mute = document.getElementById('mute');
       var fullscreen = document.getElementById('fullscreen');
       var forward = document.getElementById('forward');
+
+      const linkBack = el('a', 'Til baka');
+      linkBack.classList.add('linkBack');
+      linkBack.setAttribute('href', 'index.html');
+      const linkBackRow = el('div', linkBack);
+      linkBackRow.classList.add('row');
+      document.getElementById('videoPlayer').appendChild(linkBackRow);
 
       rewind.addEventListener('click', function(e) {
         let currentTime = video.currentTime;
@@ -107,11 +116,24 @@ export default class Video {
 
     }
 
-    const location = new URLSearchParams(window.location.search);
-    const id = location.get('id');
+  }
 
-    this.getData(id)
-      .then(data => this.showVideo(data, id))
-      .then(data => this.showRelated(data,id))
+  getData() {
+    //showLoading('Sæki gögn');
+
+    return fetch(this.url)
+      .then((result) => {
+        if(!result.ok) {
+          throw new Error('Mistókst að sækja gögn');
+        }
+        return result.json();
+      });
+  }
+
+
+  load() {
+    this.getData()
+        .then(data => this.setData(data))
+
   }
 }
