@@ -1036,7 +1036,7 @@
 
         data.categories.forEach(function (cat) {
           var title = el('h1', cat.title);
-          title.classList.add('categoryTitle');
+          title.classList.add('category-title');
           var titleRow = el('div', title);
           titleRow.classList.add('row');
 
@@ -1648,7 +1648,7 @@
           video.appendChild(source);
           var videoControls = document.getElementById('video-controls');
           video.controls = false;
-          videoControls.style.display = 'block';
+          videoControls.style.display = 'flex';
           var rewind = document.getElementById('rewind');
           var playpause = document.getElementById('playpause');
           var mute = document.getElementById('mute');
