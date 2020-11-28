@@ -8,6 +8,10 @@ export default class Video {
     this.id = location.get('id');
   }
 
+  // TODO: klára að formatta lengd á video
+  formatLength(s) {
+    const l = s.length;
+  }
 
   getRelatedVideos(related, data) {
 
@@ -19,8 +23,8 @@ export default class Video {
         let st = `list-item__video__${vidData.id}`;
         video.classList.add(st);
 
-        // TODO: Formatta duration á videóum. Búa til fall?
         const formatDuration = `${vidData.duration}`;
+        this.formatLength(formatDuration);
         const duration = el('div', formatDuration);
         duration.classList.add('list-item__videoDuration');
         video.appendChild(duration);
