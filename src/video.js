@@ -76,7 +76,7 @@ export default class Video {
 
       var videoControls = document.getElementById('video-controls');
       video.controls = false;
-      videoControls.style.display = 'block';
+      videoControls.style.display = 'flex';
 
       var rewind = document.getElementById('rewind');
       var playpause = document.getElementById('playpause');

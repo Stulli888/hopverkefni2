@@ -69,7 +69,7 @@ export default class VideoList {
     // Ítrar gegnum hverja categoríu og býr til row fyrir titilinn
     (data.categories).forEach((cat) => {
       const title = el('h1', cat.title);
-      title.classList.add('categoryTitle');
+      title.classList.add('category-title');
       const titleRow = el('div', title);
       titleRow.classList.add('row');
       this.setContent(titleRow);
