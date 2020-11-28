@@ -23,9 +23,9 @@ export function el(name, ...children) {
 
 // fall sem setur aldur myndbands í rétt form
 export function formatDate(created) {
-  const s = "";
+  let s = "";
   const now = Date.now();
-  const elapsed = now - created;
+  let elapsed = now - created;
 
   // Tími síðan myndband var búið til í klukkustundum
   elapsed = ((elapsed/1000)/60)/60;
