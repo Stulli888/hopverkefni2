@@ -10,44 +10,42 @@ export default class Video {
 
 
   getRelatedVideos(related, data) {
-    const relatedRow = el('div');
-    relatedRow.classList.add('row');
-    console.log(related);
-    console.log(data);
 
     related.forEach((i) => {
-      console.log(i);
       if(i) {
         const vidData = data[i-1];
 
         const video = el('div');
-        let st = `listItem__video__${vidData.id}`;
+        let st = `list-item__video__${vidData.id}`;
         video.classList.add(st);
 
         // TODO: Formatta duration á videóum. Búa til fall?
         const formatDuration = `${vidData.duration}`;
         const duration = el('div', formatDuration);
-        duration.classList.add('listItem__videoDuration');
+        duration.classList.add('list-item__videoDuration');
         video.appendChild(duration);
 
         const videoTitle = el('h2', vidData.title);
-        videoTitle.classList.add('listItem__videoTitle');
+        videoTitle.classList.add('list-item__videoTitle');
 
         const formatCreated = formatDate(vidData.created);
         const created = el('span', formatCreated);
-        created.classList.add('listItem__videoDate');
+        created.classList.add('list-item__videoDate');
 
         const textElements = el('div', videoTitle, created);
-        textElements.classList.add('listItem__videoText');
+        textElements.classList.add('list-item__videoText');
 
         const clickMe = el('a', video, textElements);
-        clickMe.classList.add('listItem');
+        clickMe.classList.add('list-item');
         clickMe.setAttribute('href', `video.html?id=${vidData.id}`);
 
-        relatedRow.appendChild(clickMe);
+        const col = el('div', clickMe);
+        const cls = ['col', 'col-md-4', 'col-12', 'img-link'];
+        col.classList.add(...cls);
+        document.getElementById('related-videos').appendChild(col);
       }
     })
-    document.getElementById('related-videos').appendChild(relatedRow);
+
   }
 
   getVideoSources(source) {
@@ -57,7 +55,6 @@ export default class Video {
 
   setData(data) {
     const vidList = data.videos;
-    console.log(`id = ${this.id}`);
     const vidIdInfo = data.videos[this.id-1];
 
     var supportsVideo = !!document.createElement('video').canPlayType;
@@ -73,6 +70,8 @@ export default class Video {
       source.setAttribute('src', `${str}`);
       source.setAttribute('type', 'video/mp4');
       video.appendChild(source);
+
+      // Gögn fyrir
 
       var videoControls = document.getElementById('video-controls');
       video.controls = false;
@@ -147,14 +146,22 @@ export default class Video {
          setFullscreenData(!!document.msFullscreenElement);
       });
 
+      let description = `${vidIdInfo.description}`;
+      const descriptionContainer = el('p', description);
+      descriptionContainer.classList.add('description-text');
+      const desCol = el('div', descriptionContainer);
+      const cls = ['col', 'col-md-4', 'col-12'];
+      desCol.setAttribute(...cls);
+      document.getElementById('video-description').appendChild(desCol);
+
       this.getRelatedVideos(vidIdInfo.related, vidList);
 
       const linkBack = el('a', 'Til baka');
       linkBack.classList.add('linkBack');
       linkBack.setAttribute('href', 'index.html');
-      const linkBackRow = el('div', linkBack);
-      linkBackRow.classList.add('row');
-      document.getElementById('til-baka').appendChild(linkBackRow);
+      const linkBackContainer = el('div', linkBack);
+      linkBackContainer.classList.add("link-container");
+      document.getElementById('til-baka').appendChild(linkBackContainer);
     }
 
   }
