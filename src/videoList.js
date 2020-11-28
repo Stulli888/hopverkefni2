@@ -6,8 +6,8 @@ export default function makeList(container) {
 }
 
 const videoList = (() => {
-  const content;
-  const response;
+  //const content;
+  //const response;
   const url = './videos.json';
 
   function showLoading(text) {
@@ -86,8 +86,8 @@ const videoList = (() => {
   }
 
   function init(body) {
-    content = body.querySelector('list');
-    response = getData(url);
+    const content = body.querySelector('list');
+    const response = getData(url);
     showList(response);
   }
 

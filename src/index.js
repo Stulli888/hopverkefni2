@@ -1,5 +1,5 @@
-import {makeList} from 'videoList';
-import Video from 'video';
+import makeList from './videoList';
+import Video from './video';
 
 document.addEventListener('DOMContentLoaded', () => {
   const page = document.querySelector('body');
